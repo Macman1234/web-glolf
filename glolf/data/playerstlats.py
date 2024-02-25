@@ -3,7 +3,7 @@ from typing import NamedTuple
 from datetime import date
 import json
 
-from . import saved_mod_data
+#from . import saved_mod_data
 
 def random_player_emoji(rng):
     humanoid = ["👶","👧","🧒","👦","👩","🧑","👨","👩‍🦱","🧑‍🦱","👨‍🦱","👩‍🦰","🧑‍🦰","👨‍🦰","👱‍♀️",
@@ -317,19 +317,19 @@ known_players = {
         unworthiness=0,
         tentacles=4,
         ),emoji="😅"),
-    "Simulacrum": player_with_mods_but_random_stats("Simulacrum",[saved_mod_data.spookyGrandUnchipMod]),
-    "Solar Dies": player_with_mods_but_random_stats("Solar Dies",[saved_mod_data.spookyGrandUnchipMod]),
-    "Load Bearing Coconut": player_with_mods_but_random_stats("Load Bearing Coconut",[saved_mod_data.championshipJacket]),
-    "Frankle Knives": player_with_mods_but_random_stats("Frankle Knives",[saved_mod_data.championshipJacket]),
-    "Spooks Mcgee": player_with_mods_but_random_stats("Spooks McGee",[saved_mod_data.championshipJacket]),
-    "Line Cook": player_with_mods_but_random_stats("Line Cook",[saved_mod_data.championshipJacket]),
-    "The 12th Herb And Spice": player_with_mods_but_random_stats("The 12th Herb And Spice",[saved_mod_data.championshipJacket]),
-    "Caldera Clembons": player_with_mods_but_random_stats("Caldera Clembons",[saved_mod_data.buff]),
-    "1": player_with_mods_but_random_stats("1",[saved_mod_data.foxFriendship]),
+    #"Simulacrum": player_with_mods_but_random_stats("Simulacrum",[saved_mod_data.spookyGrandUnchipMod]),
+    #"Solar Dies": player_with_mods_but_random_stats("Solar Dies",[saved_mod_data.spookyGrandUnchipMod]),
+    #"Load Bearing Coconut": player_with_mods_but_random_stats("Load Bearing Coconut",[saved_mod_data.championshipJacket]),
+    #"Frankle Knives": player_with_mods_but_random_stats("Frankle Knives",[saved_mod_data.championshipJacket]),
+    #"Spooks Mcgee": player_with_mods_but_random_stats("Spooks McGee",[saved_mod_data.championshipJacket]),
+    #"Line Cook": player_with_mods_but_random_stats("Line Cook",[saved_mod_data.championshipJacket]),
+    #"The 12th Herb And Spice": player_with_mods_but_random_stats("The 12th Herb And Spice",[saved_mod_data.championshipJacket]),
+    #"Caldera Clembons": player_with_mods_but_random_stats("Caldera Clembons",[saved_mod_data.buff]),
+    #"1": player_with_mods_but_random_stats("1",[saved_mod_data.foxFriendship]),
     # "Hands Scoresburg": player_with_mods_but_random_stats("Hands Scoresburg",["🖊️🏄"]), #I've forgotten what this means
-    "Test Robot": player_with_mods_but_random_stats("Test Robot",[saved_mod_data.spookyGrandUnchipMod]),
-    "Dog Dad": player_with_mods_but_random_stats("Dog Dad",[saved_mod_data.voidTrapped,saved_mod_data.championshipJacket]),
-    "Melissa Bop": player_with_mods_but_random_stats("Melissa Bop", [saved_mod_data.nutrisocks])
+    #"Test Robot": player_with_mods_but_random_stats("Test Robot",[saved_mod_data.spookyGrandUnchipMod]),
+    #"Dog Dad": player_with_mods_but_random_stats("Dog Dad",[saved_mod_data.voidTrapped,saved_mod_data.championshipJacket]),
+    #"Melissa Bop": player_with_mods_but_random_stats("Melissa Bop", [saved_mod_data.nutrisocks])
 }
 known_players["Alto"] = known_players["Polkadot Patterson"]
 
