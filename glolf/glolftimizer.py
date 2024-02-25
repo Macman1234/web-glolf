@@ -6,6 +6,7 @@ from multiprocessing import Pool
 import csv
 import os
 from functools import partial
+from datetime import datetime
 
 def makePlayerName(names):
     firstname = names[random.randrange(0,len(names))].strip().capitalize()
@@ -15,6 +16,24 @@ def makePlayerName(names):
 def calculateScore(query,sample):
 
     score = 0
+
+    weights = [sample.churliness,sample.earliness,sample.twirliness]
+    if sample.stance in ("Aggro","Powerful","Hand to Hand","DPS","Explosive","Hardcore","Wibble","Electric"): #offense-boosting stances
+        weights[0] += 0.5
+    # earliness-boosting stances
+    elif sample.stance in ("Tanky","Twitchy","Repose","Reverse","Softcore","Cottagecore","Pomegranate"): # defense-boosting stances
+        weights[1] += 0.5
+    #twirliness-boosting stances
+    if sample.stance in ("Feint","Tricky","Pop-Punk","Flashy","Spicy","Corecore","Wobble","Lefty"): # style-boosting stances
+        weights[2] += 0.5
+
+    weights = sorted(weights, reverse=True)
+
+    chanceOfBiggest = weights[0]/sum(weights) #this ranges from highest = 1 to lowest = 1/len(weights)
+
+    minChance = 1/len(weights)
+
+    unpredictability = 1-(chanceOfBiggest-minChance)/(1-minChance)
 
     drivingval = (sample.musclitude + sample.tofu)*5/2
     precisionval = ((1-sample.needlethreadableness)*0.5 + sample.finesse + sample.estimation*0.2) * 5/(1+0.2+0.5) - abs(sample.left_handedness)
@@ -27,7 +46,7 @@ def calculateScore(query,sample):
         if stlat["name"] == "driving":
             score += drivingval * sign
         if stlat["name"] == "precision":
-            score += precision * sign
+            score += precisionval * sign
         if stlat["name"] == "aerodynamics":
             score += aerodynamicsval * sign
         if stlat["name"] == "selfawareness":
@@ -59,11 +78,8 @@ if __name__ == '__main__':
                 stlats.append({"name": row[0],"minmax": row[1]})
             queries.append({"queryname": filename, "stlats": stlats})
         
-    print(queries)
-
-    name_count = 30229200
+    print('Queries loaded from files!')
     
-    """
     with open('eff_large_wordlist_no_indexes.txt', 'r',encoding="utf-8") as file:
         names = [line for line in file]
 
@@ -75,14 +91,20 @@ if __name__ == '__main__':
     
     print('Names fixed and capitalized!')
     
-    #glolfer_names_tuples = itertools.product(names,names)
-    """
-    glolfer_names_tuples = [("test","name"),("Wagon","Chitchat"),("Other","Name")]
+    glolfer_names_tuples = itertools.product(names,names)
+
+    #glolfer_names_tuples = [("test","name"),("Wagon","Chitchat"),("Other","Name")]
 
     print('Name product object created. Clear the blast radius.')
 
-    with Pool(1) as p:
+    with Pool(8) as p:
         worker = partial(genplayerandreport,queries)
-        results = list(tqdm.tqdm(p.imap(worker,glolfer_names_tuples)))
+        results = list(tqdm.tqdm(p.imap(worker,glolfer_names_tuples), total=pow(len(names),2)))
 
-    print(results)
+    with open(f'report.{datetime.now()}.csv', 'w', newline='') as csvfile:
+        reportwriter = csv.writer(csvfile, delimiter=',',quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        reportwriter.writerow(results[0].keys())
+        for r in results:
+            name = r.pop("name")
+            scores = r.values()
+            reportwriter.writerow([name] + list(scores))
