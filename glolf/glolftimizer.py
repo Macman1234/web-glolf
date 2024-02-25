@@ -13,23 +13,35 @@ def makePlayerName(names):
     return firstname + " " + lastname
 
 def calculateScore(query,sample):
-    if "Driving" in moons_to_max: 
-        moon_sum += (sample.musclitude + sample.tofu)*5/2
-    if "Precision" in moons_to_max: 
-        moon_sum += ((1-sample.needlethreadableness)*0.5 + sample.finesse + sample.estimation*0.2) * 5/(1+0.2+0.5) - abs(sample.left_handedness)
-    if "Aerodynamics" in moons_to_max:
-        moon_sum += (sample.ritualism + sample.owlishness + sample.softness) * 5/3 #unused for now, need more stlats
-    if "Self Awareness" in moons_to_max:
-        moon_sum += (sample.wiggle*0.5 + (sample.marbles-2)/2 + unpredictability*0.8) * 5/(0.5+1+0.8) + sample.polkadottedness * 5 #means nothing for now
+
+    score = 0
+
+    drivingval = (sample.musclitude + sample.tofu)*5/2
+    precisionval = ((1-sample.needlethreadableness)*0.5 + sample.finesse + sample.estimation*0.2) * 5/(1+0.2+0.5) - abs(sample.left_handedness)
+    aerodynamicsval = (sample.ritualism + sample.owlishness + sample.softness) * 5/3 #unused for now, need more stlats
+    selfawarenessval = (sample.wiggle*0.5 + (sample.marbles-2)/2 + unpredictability*0.8) * 5/(0.5+1+0.8) + sample.polkadottedness * 5 #means nothing for now
+
+    for stlat in query["stlats"]:
+        if stlat["minmax"] == "min": sign = -1
+        else: sign = 1
+        if stlat["name"] == "driving":
+            score += drivingval * sign
+        if stlat["name"] == "precision":
+            score += precision * sign
+        if stlat["name"] == "aerodynamics":
+            score += aerodynamicsval * sign
+        if stlat["name"] == "selfawareness":
+            score += selfawarenessval * sign
+
+    return score
+
 
 def genplayerandreport(queries,n_tup):
     n = str(n_tup[0]) + " " + str(n_tup[1]) # compose name from tuple
     result = {"name":n}
     sample = playerstlats.generate_random_stlats_from_name(str(n))
     for q in queries:
-        print(f"query is: {q}")
-        score = 0
-        result[q["queryname"]] = score
+        result[q["queryname"]] = calculateScore(q,sample)
     return result
 
 if __name__ == '__main__':
