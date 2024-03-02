@@ -4,5 +4,5 @@ __pycache__/
 glolf/.env
 db_data/*
 report.*
-
+*.db
 glolf/db_data/*
