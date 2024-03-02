@@ -57,13 +57,11 @@ if __name__ == '__main__':
     
     names = [name.strip().capitalize() for name in names]
     
-    glolfer_names_count = len(names)^2
-    
     print('Names fixed and capitalized!')
     
-    #glolfer_names_tuples = itertools.product(names,names)
+    glolfer_names_tuples = itertools.product(names,names)
 
-    glolfer_names_tuples = [("test","name"),("Wagon","Chitchat"),("Other","Name")]
+    #glolfer_names_tuples = [("test","name"),("Wagon","Chitchat"),("Other","Name")]
 
     print('Name product object created. Clear the blast radius.')
 
@@ -78,7 +76,7 @@ if __name__ == '__main__':
     con.commit()
     con.close()
 
-    with Pool(2) as p:
+    with Pool(8) as p:
         results = []
         for n in glolfer_names_tuples:
             results.append(p.apply_async(genplayerandreport, (n,)))
